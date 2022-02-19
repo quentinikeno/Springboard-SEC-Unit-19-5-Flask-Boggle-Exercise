@@ -1,4 +1,14 @@
 {% extends 'base.html' %} {% block title %} Boggle! {% endblock %} {% block
 content %}
 <h1>Hello from index</h1>
+
+<table>
+	{% for row in session['board'] %}
+	<tr>
+		{% for letter in row %}
+		<td>{{letter}}</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
 {% endblock %}
