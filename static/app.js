@@ -2,6 +2,7 @@ const boggle_guess_form = document.getElementById("boggle-guess");
 const guess_input = document.getElementById("guess-input");
 const score_span = document.getElementById("score");
 const timer_span = document.getElementById("timer");
+const form_div = document.getElementById("form-div");
 
 let score = 0;
 let timeRemaining = 60;
@@ -17,8 +18,8 @@ async function handleGuess(event) {
 }
 
 async function submitGuess(guess) {
+	const result_message = document.querySelector(".result-message");
 	response = await axios.get(`/guess?word=${guess}`);
-	result_message = document.querySelector(".result-message");
 	if (result_message) result_message.remove(); //Remove the result-message from DOM to make way for the new one
 	return response.data.result;
 }
@@ -44,6 +45,17 @@ function displayResult(guess, result) {
 	}
 }
 
+function showRestartButton() {
+	//Remove form for guesses and show the button to restart the game;
+	const restartButton = document.createElement("a");
+	restartButton.innerText = "Restart Game!";
+	restartButton.setAttribute("href", "/");
+	restartButton.classList.add("restart-button", "mt-1");
+
+	form_div.innerHTML = "";
+	form_div.append(restartButton);
+}
+
 //Update the timer for 60 seconds in the DOM
 const timerInterval = setInterval(() => {
 	if (timeRemaining === 0) clearInterval();
@@ -52,7 +64,11 @@ const timerInterval = setInterval(() => {
 }, 1000);
 
 //Set a timer for 60 seconds and disable guesses once time is up
-setTimeout(() => {
+setTimeout(async () => {
 	guess_input.disabled = true;
 	clearInterval(timerInterval);
+	let response = await axios.post("/game-over-update", {
+		current_score: score_span.innerText,
+	});
+	showRestartButton();
 }, 60000);

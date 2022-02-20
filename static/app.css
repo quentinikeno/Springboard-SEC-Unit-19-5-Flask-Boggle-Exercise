@@ -8,6 +8,10 @@ main {
 	text-align: center;
 }
 
+h1 {
+	letter-spacing: 2px;
+}
+
 td {
 	font-size: 2rem;
 	font-weight: bold;
@@ -25,8 +29,27 @@ table {
 	margin-top: 1rem;
 }
 
+#score-and-time-div span {
+	font-weight: bold;
+}
+
 #boggle-guess input {
 	margin-left: 0.5rem;
+	padding: 0.5rem;
+	font-size: 1rem;
+}
+
+button,
+.restart-button {
+	font-size: 1rem;
+	font-weight: bold;
+	padding: 0.75rem;
+	background-color: slateblue;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	text-decoration: none;
 }
 
 .result-message {
