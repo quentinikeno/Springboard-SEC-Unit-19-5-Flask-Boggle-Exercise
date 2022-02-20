@@ -63,8 +63,7 @@ button,
 	border: 1px solid darkgreen;
 }
 
-.result-message#not-on-board,
-.result-message#not-word {
+.result-message:not(#ok) {
 	background-color: lightyellow;
 	color: rgb(133, 107, 42);
 	border: 1px solid rgb(133, 107, 42);

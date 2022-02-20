@@ -15,13 +15,23 @@ debug = DebugToolbarExtension(app)
 def index():
     """Index route for Boggle"""
     session['board'] = boggle_game.make_board()
+    session['submitted_words'] = list()
+    
     return render_template('index.html')
 
 @app.route('/guess')
 def guess():
     """Route to check if a result is on the board and respond with the result in JSON"""
     guess = request.args['word']
-    result = boggle_game.check_valid_word(session['board'], guess)
+    submitted_words = session['submitted_words']
+
+    if guess in submitted_words:
+        result = 'duplicate-word'
+    else:
+        result = boggle_game.check_valid_word(session['board'], guess)
+        submitted_words.append(guess)
+        session['submitted_words'] = submitted_words
+
     return jsonify({"result": result})
 
 @app.route('/game-over-update', methods=["POST"])
@@ -38,4 +48,5 @@ def update_score_and_games():
             session['high_score'] = current_score
     else:
         session['high_score'] = current_score
+
     return jsonify({'times_played': session['times_played'], 'high_score': session['high_score']})

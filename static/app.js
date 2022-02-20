@@ -30,6 +30,7 @@ function displayResult(guess, result) {
 		ok: `${guess} is on the board!`,
 		"not-on-board": `Sorry, ${guess} is not on the board.  Try again!`,
 		"not-word": `Sorry, ${guess} is not an accepted word.  Try again!`,
+		"duplicate-word": `You've already guessed ${guess}.  Try again!`,
 	};
 
 	message = document.createElement("p");
