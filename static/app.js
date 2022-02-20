@@ -1,16 +1,20 @@
 const boggle_guess_form = document.getElementById("boggle-guess");
 const guess_input = document.getElementById("guess-input");
 const score_span = document.getElementById("score");
+const timer_span = document.getElementById("timer");
 
 let score = 0;
+let timeRemaining = 60;
 
-boggle_guess_form.addEventListener("submit", async (event) => {
+boggle_guess_form.addEventListener("submit", handleGuess);
+
+async function handleGuess(event) {
 	event.preventDefault();
 	guess = guess_input.value.trim();
 	result = await submitGuess(guess);
 	displayResult(guess, result);
 	guess_input.value = "";
-});
+}
 
 async function submitGuess(guess) {
 	response = await axios.get(`/guess?word=${guess}`);
@@ -26,11 +30,12 @@ function displayResult(guess, result) {
 		"not-on-board": `Sorry, ${guess} is not on the board.  Try again!`,
 		"not-word": `Sorry, ${guess} is not an accepted word.  Try again!`,
 	};
-	result_message = document.createElement("p");
-	result_message.id = result;
-	result_message.classList.add("result-message");
-	result_message.innerText = messages[result];
-	document.querySelector("main").prepend(result_message);
+
+	message = document.createElement("p");
+	message.id = result;
+	message.classList.add("result-message");
+	message.innerText = messages[result];
+	document.querySelector("main").prepend(message);
 
 	//Update score in DOM
 	if (result === "ok") {
@@ -38,3 +43,16 @@ function displayResult(guess, result) {
 		score_span.innerText = score;
 	}
 }
+
+//Update the timer for 60 seconds in the DOM
+const timerInterval = setInterval(() => {
+	if (timeRemaining === 0) clearInterval();
+	timeRemaining--;
+	timer_span.innerText = timeRemaining;
+}, 1000);
+
+//Set a timer for 60 seconds and disable guesses once time is up
+setTimeout(() => {
+	guess_input.disabled = true;
+	clearInterval(timerInterval);
+}, 60000);
