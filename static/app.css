@@ -1,0 +1,48 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+	width: 50%;
+	margin: 4rem auto;
+	text-align: center;
+}
+
+td {
+	font-size: 2rem;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: center;
+	padding: 1rem;
+	border: 1px solid black;
+}
+
+table {
+	margin: 0.5rem auto;
+}
+
+.mt-1 {
+	margin-top: 1rem;
+}
+
+#boggle-guess input {
+	margin-left: 0.5rem;
+}
+
+.result-message {
+	padding: 0.5rem;
+	border-radius: 5px;
+}
+
+.result-message#ok {
+	background-color: lightgreen;
+	color: darkgreen;
+	border: 1px solid darkgreen;
+}
+
+.result-message#not-on-board,
+.result-message#not-word {
+	background-color: lightyellow;
+	color: rgb(133, 107, 42);
+	border: 1px solid rgb(133, 107, 42);
+}

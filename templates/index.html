@@ -1,29 +1,35 @@
 {% extends 'base.html' %} {% block title %} Boggle! {% endblock %} {% block
 content %}
-<h1>Hello from index</h1>
+<h1>Boggle!</h1>
 
-<table>
-	{% for row in session['board'] %}
-	<tr>
-		{% for letter in row %}
-		<td>{{letter}}</td>
+	<table>
+		{% for row in session['board'] %}
+		<tr>
+			{% for letter in row %}
+			<td>{{letter}}</td>
+			{% endfor %}
+		</tr>
 		{% endfor %}
-	</tr>
-	{% endfor %}
-</table>
+	</table>
 
-<div>
-	<form action="#" method="get" id="boggle-guess">
-		<div>
-			<label for="guess">Guess</label
-			><input
-				type="text"
-				name="guess"
-				id="guess-input"
-				placeholder="Guess a word..."
-			/>
-		</div>
-		<button type="submit">Submit your guess!</button>
-	</form>
-</div>
-{% endblock %}
+	<div class="mt-1">
+		<p>Your score is: <span id="score">0</span></p>
+	</div>
+
+	<div class="mt-1">
+		<form action="#" method="get" id="boggle-guess">
+			<div>
+				<label for="guess" aria-required="true">Guess:</label
+				><input
+					type="text"
+					name="guess"
+					id="guess-input"
+					placeholder="Guess a word..."
+					required="true"
+				/>
+			</div>
+			<button type="submit" class="mt-1">Submit your guess!</button>
+		</form>
+	</div>
+	{% endblock %}
+</h1>
