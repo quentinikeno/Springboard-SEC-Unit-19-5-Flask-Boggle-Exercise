@@ -8,7 +8,6 @@ class BoggleGame {
 	constructor() {
 		this.score = 0;
 		this.timeRemaining = 60;
-		this.handleGuess = this.handleGuess.bind(this);
 		this.guess;
 		this.result;
 
@@ -16,13 +15,13 @@ class BoggleGame {
 		this.setTimers();
 	}
 
-	async handleGuess(event) {
+	handleGuess = async (event) => {
 		event.preventDefault();
 		this.guess = guess_input.value.trim();
 		this.result = await this.submitGuess();
 		this.displayResult();
 		guess_input.value = "";
-	}
+	};
 
 	async submitGuess() {
 		const result_message = document.querySelector(".result-message");
