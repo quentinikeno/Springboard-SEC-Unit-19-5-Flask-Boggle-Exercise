@@ -43,13 +43,21 @@ button,
 .restart-button {
 	font-size: 1rem;
 	font-weight: bold;
+	display: inline-block;
 	padding: 0.75rem;
-	background-color: slateblue;
 	color: white;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
 	text-decoration: none;
+}
+
+button {
+	background-color: slateblue;
+}
+
+.restart-button {
+	background-color: mediumseagreen;
 }
 
 .result-message {

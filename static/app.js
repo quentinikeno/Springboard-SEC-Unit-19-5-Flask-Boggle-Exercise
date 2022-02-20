@@ -9,46 +9,51 @@ class BoggleGame {
 		this.score = 0;
 		this.timeRemaining = 60;
 		this.handleGuess = this.handleGuess.bind(this);
+		this.guess;
+		this.result;
+
 		boggle_guess_form.addEventListener("submit", this.handleGuess);
 		this.setTimers();
 	}
 
 	async handleGuess(event) {
-		console.log(this);
 		event.preventDefault();
-		const guess = guess_input.value.trim();
-		const result = await this.submitGuess(guess);
-		this.displayResult(guess, result);
+		this.guess = guess_input.value.trim();
+		this.result = await this.submitGuess();
+		this.displayResult();
 		guess_input.value = "";
 	}
 
-	async submitGuess(guess) {
+	async submitGuess() {
 		const result_message = document.querySelector(".result-message");
-		const response = await axios.get(`/guess?word=${guess}`);
+		const response = await axios.get(`/guess?word=${this.guess}`);
 		if (result_message) result_message.remove(); //Remove the result-message from DOM to make way for the new one
 		return response.data.result;
 	}
 
-	displayResult(guess, result) {
+	displayResult() {
+		//Make a paragraph tag with the result and add it to the DOM
+		const message = document.createElement("p");
+		message.id = this.result;
+		message.classList.add("result-message");
+		message.innerText = this.returnMessage(this.guess);
+		document.querySelector("main").prepend(message);
+
+		//Update score in DOM
+		if (this.result === "ok") {
+			this.score += this.guess.length;
+			score_span.innerText = this.score;
+		}
+	}
+
+	returnMessage(guess) {
 		const messages = {
 			ok: `${guess} is on the board!`,
 			"not-on-board": `Sorry, ${guess} is not on the board.  Try again!`,
 			"not-word": `Sorry, ${guess} is not an accepted word.  Try again!`,
 			"duplicate-word": `You've already guessed ${guess}.  Try again!`,
 		};
-
-		//Make a paragraph tag with the result and add it to the DOM
-		const message = document.createElement("p");
-		message.id = result;
-		message.classList.add("result-message");
-		message.innerText = messages[result];
-		document.querySelector("main").prepend(message);
-
-		//Update score in DOM
-		if (result === "ok") {
-			this.score += guess.length;
-			score_span.innerText = this.score;
-		}
+		return messages[this.result];
 	}
 
 	showRestartButton() {
@@ -72,7 +77,6 @@ class BoggleGame {
 
 		//Set a timer for 60 seconds and disable guesses once time is up
 		setTimeout(async () => {
-			guess_input.disabled = true;
 			clearInterval(timerInterval);
 			await axios.post("/game-over-update", {
 				current_score: this.score,
